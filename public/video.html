@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WATCH">
+    <meta name="twitter:image" content="https://www.ondsport.com/play/play.jpg">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1YPV6S1W4Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1YPV6S1W4Y');
+</script>
+    <title>Soccer</title>
+    <style>
+      nav {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+      }
+      #video-container {
+  text-align: center; /* center the text within the container */
+  padding: 40px; /* add more padding to the container */
+}
+
+#video-container video {
+  width: 80%; /* set the width of the video element to 80% of the container's width */
+  max-height: 800px; /* set the maximum height of the video element to 800px */
+}
+
+#video-container h3 {
+  font-size: 36px; /* increase the font size of the title */
+  margin-top: 40px; /* add more margin to the top of the title */
+}
+
+#video-container p {
+  font-size: 24px; /* increase the font size of the information */
+  margin-top: 20px; /* add more margin to the top of the information */
+}
+
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+      </ul>
+    </nav>
+    <div id="video-container"></div>
+    <script>
+      let videoTitle = window.location.href.split("/")[4];
+      fetch(`/singlevideo/${videoTitle}`)
+        .then((response) => response.json())
+        .then((video) => {
+          var videoContainer = document.getElementById("video-container");
+          var newVideo = document.createElement("video");
+          newVideo.src = `/videos/${videoTitle}.mp4`;
+
+
+          newVideo.controls = true;
+          var newVideoTitle = document.createElement("h3");
+          newVideoTitle.innerHTML = video.title.replace(/-/g, " ").replace('+','');
+          var newVideoLeague = document.createElement("p");
+          newVideoLeague.innerHTML = `${video.league}`;
+          var newVideoGame = document.createElement("p");
+          newVideoGame.innerHTML = `Game: ${video.game}`;
+          var newVideoGameTimePosted = document.createElement("p");
+          newVideoGameTimePosted.innerHTML = `Posted: ${video.timePosted}`;
+          videoContainer.appendChild(newVideo);
+          videoContainer.appendChild(newVideoTitle);
+          videoContainer.appendChild(newVideoLeague);
+          videoContainer.appendChild(newVideoGame);
+          videoContainer.appendChild(newVideoGameTimePosted);
+        })
+        .catch((error) => {
+          var videoContainer = document.getElementById("video-container");
+          var errorMessage = document.createElement("p");
+          errorMessage.innerHTML = "Error: Not found.";
+          errorMessage.className = "error-message";
+          videoContainer.appendChild(errorMessage);
+        });
+    </script>
+  </body>
+</html>
